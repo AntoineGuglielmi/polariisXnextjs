@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+@plugin "tailwindcss-debug-screens";
+
+@theme {
+  --theme-pure-white: oklch(100% 0 0);
+  --theme-humble-black: oklch(23.32% 0.0041 128.7);
+  --theme-unorganic-green: oklch(93.05% 0.149 124.2);
+  --theme-sky-blue: oklch(89.16% 0.0687 212.3);
+  --theme-shiny-pink: oklch(86.62% 0.0804 348.3);
+  --theme-almost-orange: oklch(86.68% 0.0844 64);
+  --theme-powerless-grey: oklch(95.81% 0 0);
+
+  --color-pure-white: var(--theme-pure-white);
+  --color-unorganic-green: var(--theme-unorganic-green);
+  --color-sky-blue: var(--theme-sky-blue);
+  --color-shiny-pink: var(--theme-shiny-pink);
+  --color-almost-orange: var(--theme-almost-orange);
+  --color-powerless-grey: var(--theme-powerless-grey);
+
+  --font-nunito: 'var(--font-nunito)';
+
+  --color-layout-bg: var(--theme-pure-white);
+  --color-layout-text: var(--theme-humble-black);
+
+  --color-button-border: var(--theme-humble-black);
+  --color-button-bg-hollow: var(--theme-pure-white);
+  --color-button-bg-full: var(--theme-humble-black);
+  --color-button-text-hollow: var(--theme-humble-black);
+  --color-button-text-full: var(--theme-pure-white);
+  --color-button-hover-bg-hollow: var(--theme-humble-black);
+  --color-button-hover-text-hollow: var(--theme-pure-white);
+
+  --color-circle-green: var(--theme-unorganic-green);
+
+  --color-footer-frame-bg: var(--theme-humble-black);
+  --color-footer-frame-text: var(--theme-pure-white);
+
+  --radius-big: 3rem;
+  --radius-small: 1.5rem;
+  --radius-mini: 0.25rem;
+}
+
+@utility reg-cont {
+  @apply container px-4 mx-auto;
+}
+
+@utility typeface-paragraph {
+  @apply font-nunito text-layout-text font-[400] leading-[180%] fz-sm max-w-prose;
+}
+
+@utility typeface-paragraph-upper {
+  @apply typeface-paragraph uppercase font-[500];
+}
+
+@utility typeface-button {
+  @apply typeface-paragraph font-[700];
+}
+
+@utility typeface-heading-1 {
+  @apply typeface-paragraph font-[700] fz-8xl leading-[100%];
+}
+
+@utility typeface-heading-2 {
+  @apply typeface-paragraph font-[700] fz-5xl leading-[120%];
+}
+
+@utility typeface-heading-3 {
+  @apply typeface-paragraph font-[700] fz-2xl leading-[140%];
+}
+
+@utility typeface-subtitle {
+  @apply typeface-paragraph-upper fz-xs;
+}
+
+/* prettier-ignore */
+@utility br-* {
+  border-radius: calc(var(--spacing) * --value(integer));
+}
+
+/* prettier-ignore */
+@utility fz-* {
+  font-size: --value(--text-*, [*]);
+}
