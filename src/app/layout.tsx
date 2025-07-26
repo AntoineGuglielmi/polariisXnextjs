@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import './globals.css'
+import PolariisProvider from 'pxn/components/polariis-provider'
 
 const nunito = Nunito({
   variable: '--font-nunito',
@@ -23,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} antialiased bg-layout-bg font-nunito debug-screens`}
       >
-        {children}
+        <PolariisProvider>{children}</PolariisProvider>
       </body>
     </html>
   )
