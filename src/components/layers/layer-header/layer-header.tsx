@@ -1,6 +1,7 @@
 import Logo from '@/components/atoms/logo/logo'
 import Nav from '@/components/molecules/nav/nav'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 type LayerHeaderProps = {
   className?: string
@@ -12,7 +13,12 @@ export default function LayerHeader({ className }: LayerHeaderProps) {
     <header className={cn('LayerHeader ', className)}>
       <div className="LayerHeader__container reg-cont">
         <div className="LayerHeader__content flex justify-between items-center">
-          <Logo className="h-[1.5em]" />
+          <Link
+            href="/"
+            className="flex items-center"
+          >
+            <Logo className="h-[1.5em]" />
+          </Link>
           <Nav />
         </div>
       </div>

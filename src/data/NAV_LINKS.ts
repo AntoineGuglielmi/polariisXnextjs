@@ -8,6 +8,6 @@ export const NAV_LINKS: Array<TypeNavLink> = [
 ].map((label) => {
   return {
     label,
-    href: '/',
+    href: label === 'About' ? '/about' : '/',
   } as TypeNavLink
 })
