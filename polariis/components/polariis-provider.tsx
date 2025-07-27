@@ -1,13 +1,35 @@
 'use client'
 
+import { playAudioFromBlob, smartRecord } from 'pxn/lib/audio'
+import { useEffect, useState } from 'react'
+
 type PolariisProviderProps = {
   children?: React.ReactNode
 }
 
 export default function PolariisProvider({ children }: PolariisProviderProps) {
+  const [listening, setListening] = useState(false)
+
   const triggerPolariis = async () => {
-    console.log('Polariis triggered')
+    setListening(true)
   }
+
+  useEffect(() => {
+    const runLoop = async () => {
+      while (listening) {
+        const inputBlob = await smartRecord()
+        if (inputBlob.size < 100000) {
+          console.warn('No real sound was recorded. Recording resumes.')
+          continue
+        }
+        await playAudioFromBlob(inputBlob)
+      }
+    }
+
+    if (listening) {
+      runLoop()
+    }
+  }, [listening])
 
   return (
     <>
