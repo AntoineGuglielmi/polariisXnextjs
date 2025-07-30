@@ -16,6 +16,43 @@ export const playAudioFromBlob = async (blob: Blob): Promise<void> => {
   })
 }
 
+export const downloadAudioFromBlob = (blob: Blob, baseName = 'audio') => {
+  const mimeType = blob.type
+  const extension = mimeType.split('/')[1] || 'webm'
+
+  const filename = `${baseName}.${extension}`
+
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
+export const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onloadend = () => {
+      const base64 = reader.result
+      if (typeof base64 === 'string') {
+        // Supprime le préfixe "data:audio/webm;base64," si besoin
+        // const cleaned = base64.split(',')[1]
+        resolve(base64)
+      } else {
+        reject(new Error('Conversion failed'))
+      }
+    }
+
+    reader.onerror = () => reject(new Error('FileReader error'))
+
+    reader.readAsDataURL(blob)
+  })
+}
+
 export const smartRecord = async (): Promise<Blob> => {
   console.log('Starting smart recording...')
 
@@ -65,5 +102,18 @@ export const smartRecord = async (): Promise<Blob> => {
 
     mediaRecorder.start()
     checkSilence(() => mediaRecorder.stop())
+  })
+}
+
+export const audioFileFromBlob = async ({
+  blob,
+  fileName = 'audio.mp3',
+}: {
+  blob: Blob
+  fileName?: string
+}): Promise<File> => {
+  return new File([blob], fileName, {
+    type: blob.type || 'audio/webm',
+    lastModified: Date.now(),
   })
 }
