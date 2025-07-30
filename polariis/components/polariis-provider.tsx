@@ -1,6 +1,7 @@
 'use client'
 
-import { playAudioFromBlob, smartRecord } from 'pxn/lib/audio'
+import { actionSendRequirement } from 'pxn/actions/actionSendRequirement'
+import { audioFileFromBlob, smartRecord } from 'pxn/lib/audio'
 import { useEffect, useState } from 'react'
 
 type PolariisProviderProps = {
@@ -9,6 +10,7 @@ type PolariisProviderProps = {
 
 export default function PolariisProvider({ children }: PolariisProviderProps) {
   const [listening, setListening] = useState(false)
+  const silenceLimit = 50000
 
   const triggerPolariis = async () => {
     setListening(true)
@@ -16,13 +18,33 @@ export default function PolariisProvider({ children }: PolariisProviderProps) {
 
   useEffect(() => {
     const runLoop = async () => {
+      let attempts = 0
+
       while (listening) {
+        if (attempts >= 3) {
+          console.warn('Stopping polariis after 3 attempts.')
+          setListening(false)
+          break
+        }
+
+        attempts++
         const inputBlob = await smartRecord()
-        if (inputBlob.size < 100000) {
-          console.warn('No real sound was recorded. Recording resumes.')
+
+        if (inputBlob.size < silenceLimit) {
+          console.warn(
+            `Blob size: ${inputBlob.size} < ${silenceLimit} - No real sound was recorded. Recording resumes.`,
+          )
           continue
         }
-        await playAudioFromBlob(inputBlob)
+
+        console.log('Recording ok, sending to AI...')
+        const audioFile = await audioFileFromBlob({ blob: inputBlob })
+        const test = await actionSendRequirement(audioFile)
+        console.info({
+          test,
+        })
+
+        await new Promise((resolve) => setTimeout(resolve, 3000))
       }
     }
 
