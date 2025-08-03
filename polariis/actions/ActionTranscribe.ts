@@ -1,6 +1,6 @@
 'use server'
 
-import { ServiceTranscribeMistral } from 'pxn/services/ServiceMistral'
+import { ServiceTranscribeMistral } from 'pxn/services/ServiceTranscribeMistral'
 
 export const ActionTranscribe = async (audioFile: File) => {
   const service = new ServiceTranscribeMistral()
