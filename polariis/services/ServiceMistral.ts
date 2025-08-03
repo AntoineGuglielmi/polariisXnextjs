@@ -1,8 +1,8 @@
 import { Mistral } from '@mistralai/mistralai'
-import { InterfaceService } from 'pxn/interfaces/InterfaceService'
 import { mistralClient } from './clients/mistral-client'
+import { InterfaceServiceTranscribe } from 'pxn/interfaces/InterfaceServiceTranscribe'
 
-export class ServiceMistral implements InterfaceService {
+export class ServiceTranscribeMistral implements InterfaceServiceTranscribe {
   private client: Mistral
 
   constructor() {
