@@ -14,6 +14,8 @@ export class Polariis {
     let processOk = true
     let RUO: { type: 'description' | 'interaction' | 'adjustment' } | null =
       null
+    let requirementTranscription: string | null = null
+    const testing = true
 
     while (processOk) {
       const requirementAudio = await this.audio.getAudioRequirement()
@@ -24,26 +26,40 @@ export class Polariis {
         break
       }
 
-      const requirementTranscription = await this._getTranscriptionRequirement(
-        requirementAudio,
-      )
+      if (testing) {
+        requirementTranscription = 'Y a quoi sur la page ?'
+        console.log({
+          requirementTranscription,
+        })
 
-      console.log({
-        requirementTranscription,
-      })
-
-      try {
-        RUO = await this._getRUO(requirementTranscription)
+        RUO = {
+          type: 'description',
+        }
         console.log({
           RUO,
         })
-      } catch (error: unknown) {
-        console.error(
-          `Error getting RUO: ${
-            error instanceof Error ? error.message : 'Unknown error'
-          }`,
+      } else {
+        requirementTranscription = await this._getTranscriptionRequirement(
+          requirementAudio,
         )
-        break
+
+        console.log({
+          requirementTranscription,
+        })
+
+        try {
+          RUO = await this._getRUO(requirementTranscription)
+          console.log({
+            RUO,
+          })
+        } catch (error: unknown) {
+          console.error(
+            `Error getting RUO: ${
+              error instanceof Error ? error.message : 'Unknown error'
+            }`,
+          )
+          break
+        }
       }
 
       const { type } = RUO
