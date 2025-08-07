@@ -11,6 +11,8 @@ export class Polariis {
 
   public async listen() {
     let processOk = true
+    let RUO: { type: 'description' | 'interaction' | 'adjustment' } | null =
+      null
 
     while (processOk) {
       const requirementAudio = await this.audio.getAudioRequirement()
@@ -29,10 +31,34 @@ export class Polariis {
         requirementTranscription,
       })
 
-      const RUO = await this._getRUO(requirementTranscription)
-      console.log({
-        RUO,
-      })
+      try {
+        RUO = await this._getRUO(requirementTranscription)
+        console.log({
+          RUO,
+        })
+      } catch (error: unknown) {
+        console.error(
+          `Error getting RUO: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        )
+        break
+      }
+
+      const { type } = RUO
+
+      switch (type) {
+        case 'description':
+          this._getDescription(requirementTranscription)
+          break
+        case 'interaction':
+          break
+        case 'adjustment':
+          break
+
+        default:
+          break
+      }
     }
   }
 
@@ -40,7 +66,14 @@ export class Polariis {
     return await ActionTranscribe(audioFile)
   }
 
-  private async _getRUO(requirement: string): Promise<string> {
+  private async _getRUO(
+    requirement: string,
+  ): Promise<{ type: 'description' | 'interaction' | 'adjustment' }> {
     return JSON.parse(await ActionGetRUO(requirement))
+  }
+
+  private async _getDescription(requirement: string): Promise<string> {
+    const description = `Description for: ${requirement}`
+    return description
   }
 }
