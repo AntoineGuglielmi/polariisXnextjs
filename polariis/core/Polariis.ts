@@ -1,3 +1,4 @@
+import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from './Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
 
@@ -27,10 +28,19 @@ export class Polariis {
       console.log({
         requirementTranscription,
       })
+
+      const RUO = await this._getRUO(requirementTranscription)
+      console.log({
+        RUO,
+      })
     }
   }
 
   private async _getTranscriptionRequirement(audioFile: File): Promise<string> {
     return await ActionTranscribe(audioFile)
+  }
+
+  private async _getRUO(requirement: string): Promise<string> {
+    return JSON.parse(await ActionGetRUO(requirement))
   }
 }
