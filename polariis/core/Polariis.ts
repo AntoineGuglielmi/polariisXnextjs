@@ -1,7 +1,7 @@
 import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from './Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
-import { getPageSourceCode } from 'pxn/lib/page'
+import { getPageScreenshot, getPageSourceCode } from 'pxn/lib/page'
 
 export class Polariis {
   private audio: Audio
@@ -92,8 +92,10 @@ export class Polariis {
   private async _getDescription(requirement: string): Promise<string> {
     const description = `Description for: ${requirement}`
     const pageSourceCode = await getPageSourceCode()
+    const pageScreenshot = await getPageScreenshot()
     console.log({
       pageSourceCode,
+      pageScreenshot,
     })
     return description
   }

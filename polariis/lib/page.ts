@@ -13,3 +13,7 @@ export const getPageSourceCode = async (): Promise<string> => {
     )
   }
 }
+
+export const getPageScreenshot = async (): Promise<string> => {
+  return 'Screenshot in progress...'
+}
