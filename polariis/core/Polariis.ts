@@ -66,7 +66,7 @@ export class Polariis {
 
       switch (type) {
         case 'description':
-          this._getDescription(requirementTranscription)
+          await this._getDescription(requirementTranscription)
           break
         case 'interaction':
           break
@@ -90,6 +90,8 @@ export class Polariis {
   }
 
   private async _getDescription(requirement: string): Promise<string> {
+    console.log('description')
+
     const description = `Description for: ${requirement}`
     const pageSourceCode = await getPageSourceCode()
     const pageScreenshot = await getPageScreenshot()
