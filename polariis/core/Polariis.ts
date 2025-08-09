@@ -1,7 +1,7 @@
 import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from './Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
-import { getPageSourceCode } from 'pxn/lib/page'
+import { getPageScreenshot, getPageSourceCode } from 'pxn/lib/page'
 
 export class Polariis {
   private audio: Audio
@@ -14,6 +14,8 @@ export class Polariis {
     let processOk = true
     let RUO: { type: 'description' | 'interaction' | 'adjustment' } | null =
       null
+    let requirementTranscription: string | null = null
+    const testing = true
 
     while (processOk) {
       const requirementAudio = await this.audio.getAudioRequirement()
@@ -24,33 +26,47 @@ export class Polariis {
         break
       }
 
-      const requirementTranscription = await this._getTranscriptionRequirement(
-        requirementAudio,
-      )
+      if (testing) {
+        requirementTranscription = 'Y a quoi sur la page ?'
+        console.log({
+          requirementTranscription,
+        })
 
-      console.log({
-        requirementTranscription,
-      })
-
-      try {
-        RUO = await this._getRUO(requirementTranscription)
+        RUO = {
+          type: 'description',
+        }
         console.log({
           RUO,
         })
-      } catch (error: unknown) {
-        console.error(
-          `Error getting RUO: ${
-            error instanceof Error ? error.message : 'Unknown error'
-          }`,
+      } else {
+        requirementTranscription = await this._getTranscriptionRequirement(
+          requirementAudio,
         )
-        break
+
+        console.log({
+          requirementTranscription,
+        })
+
+        try {
+          RUO = await this._getRUO(requirementTranscription)
+          console.log({
+            RUO,
+          })
+        } catch (error: unknown) {
+          console.error(
+            `Error getting RUO: ${
+              error instanceof Error ? error.message : 'Unknown error'
+            }`,
+          )
+          break
+        }
       }
 
       const { type } = RUO
 
       switch (type) {
         case 'description':
-          this._getDescription(requirementTranscription)
+          await this._getDescription(requirementTranscription)
           break
         case 'interaction':
           break
@@ -74,10 +90,14 @@ export class Polariis {
   }
 
   private async _getDescription(requirement: string): Promise<string> {
+    console.log('description')
+
     const description = `Description for: ${requirement}`
     const pageSourceCode = await getPageSourceCode()
+    const pageScreenshot = await getPageScreenshot()
     console.log({
       pageSourceCode,
+      pageScreenshot,
     })
     return description
   }
