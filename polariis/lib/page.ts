@@ -1,12 +1,13 @@
-import { domToPng, domToCanvas } from 'modern-screenshot'
+import { domToCanvas } from 'modern-screenshot'
 
 export const getPageSourceCode = async (): Promise<string> => {
+  console.log('Getting page source code...')
+
   try {
-    const response = await fetch(window.location.href)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    return await response.text()
+    const bodyClone = document.body.cloneNode(true) as HTMLElement
+    bodyClone.querySelectorAll('script, style').forEach((el) => el.remove())
+    const sourceCode = bodyClone.innerHTML
+    return sourceCode
   } catch (error: unknown) {
     throw new Error(
       `Failed to fetch page source code: ${
@@ -16,11 +17,12 @@ export const getPageSourceCode = async (): Promise<string> => {
   }
 }
 
-export const getPageScreenshot = async (): Promise<unknown> => {
+export const getPageScreenshot = async (): Promise<HTMLCanvasElement> => {
+  console.log('Getting page screenshot...')
   const scrollToBottom = async () => {
     return new Promise<void>((resolve) => {
-      const distance = 100000 // Distance à parcourir à chaque step
-      const delay = 1000 // Délai entre chaque step
+      const distance = 100000
+      const delay = 1000
 
       const scrollStep = () => {
         window.scrollBy(0, distance)
@@ -37,5 +39,4 @@ export const getPageScreenshot = async (): Promise<unknown> => {
   await scrollToBottom()
   window.scrollTo(0, 0)
   return domToCanvas(document.body)
-  return 'Screenshot in progress...'
 }
