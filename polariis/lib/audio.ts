@@ -117,3 +117,45 @@ export const audioFileFromBlob = async ({
     lastModified: Date.now(),
   })
 }
+
+export const playAudioStreaming = async (
+  audio: ReadableStream<Uint8Array<ArrayBufferLike>>,
+) => {
+  console.log('Playing audio...')
+
+  const stream = await audio
+  const mediaSource = new MediaSource()
+  const audioElement = new Audio(URL.createObjectURL(mediaSource))
+  audioElement.play()
+
+  mediaSource.addEventListener('sourceopen', () => {
+    // ⚠️ ElevenLabs renvoie du MP3 par défaut
+    const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg')
+    const reader = stream.getReader()
+
+    const pump = async () => {
+      const { value, done } = await reader.read()
+      if (done) {
+        mediaSource.endOfStream()
+        return
+      }
+      sourceBuffer.appendBuffer(value)
+      sourceBuffer.addEventListener('updateend', pump, { once: true })
+    }
+
+    pump()
+  })
+}
+
+export const playAudio = async (
+  audio: ReadableStream<Uint8Array<ArrayBufferLike>>,
+) => {
+  console.log('Playing audio...')
+
+  // Transforme le ReadableStream en Blob d'un coup
+  const audioBlob = await new Response(audio).blob()
+
+  const audioUrl = URL.createObjectURL(audioBlob)
+  const _audio = new Audio(audioUrl)
+  _audio.play()
+}

@@ -38,5 +38,6 @@ export const getPageScreenshot = async (): Promise<HTMLCanvasElement> => {
   }
   await scrollToBottom()
   window.scrollTo(0, 0)
+  console.log('Returning screenshot...')
   return domToCanvas(document.body)
 }
