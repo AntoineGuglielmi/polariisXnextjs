@@ -1,6 +1,7 @@
 'use server'
 
 import { ServiceGetDescriptionMistral } from 'pxn/services/ServiceGetDescriptionMistral'
+import { ServiceTTSEleven } from 'pxn/services/ServiceTTSEleven'
 
 export const ActionGetDescription = async ({
   requirement,
@@ -10,11 +11,19 @@ export const ActionGetDescription = async ({
   requirement: string
   screenshot: string
   sourceCode: string
-}): Promise<string> => {
+}): Promise<Blob> => {
   const descriptionService = new ServiceGetDescriptionMistral()
-  return await descriptionService.describe({
-    requirement,
-    screenshot,
-    sourceCode,
+  const ttsService = new ServiceTTSEleven()
+  const { description: stringDescription } = JSON.parse(
+    await descriptionService.describe({
+      requirement,
+      screenshot,
+      sourceCode,
+    }),
+  )
+  console.log({
+    stringDescription,
   })
+  const audioDescription = await ttsService.speak(stringDescription)
+  return audioDescription
 }
