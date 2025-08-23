@@ -15,7 +15,7 @@ export class ServiceTTSEleven {
         modelId: 'eleven_multilingual_v2',
         outputFormat: 'mp3_44100_128',
         voiceSettings: {
-          speed: 1.5,
+          speed: 1,
         },
       },
     )
