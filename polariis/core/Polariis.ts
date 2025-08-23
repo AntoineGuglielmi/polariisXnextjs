@@ -1,7 +1,7 @@
 import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from './Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
-import { getPageScreenshot, getPageSourceCode } from 'pxn/lib/page'
+import { getPageSourceCode } from 'pxn/lib/page'
 import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
 import { playAudioFromBlob } from 'pxn/lib/audio'
 import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
