@@ -5,6 +5,7 @@ export const getPageSourceCode = async (): Promise<string> => {
     const bodyClone = document.body.cloneNode(true) as HTMLElement
     bodyClone.querySelectorAll('script, style').forEach((el) => el.remove())
     const sourceCode = bodyClone.innerHTML
+    console.log('Page source code ok')
     return sourceCode
   } catch (error: unknown) {
     throw new Error(
