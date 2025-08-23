@@ -1,9 +1,10 @@
 import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from './Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
-import { getPageScreenshot, getPageSourceCode } from 'pxn/lib/page'
+import { getPageSourceCode } from 'pxn/lib/page'
 import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
 import { playAudioFromBlob } from 'pxn/lib/audio'
+import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
 
 export class Polariis {
   private audio: Audio
@@ -94,12 +95,16 @@ export class Polariis {
 
   private async _getDescription(requirement: string): Promise<void> {
     const pageSourceCode = await getPageSourceCode()
-    const pageScreenshotCanvas = await getPageScreenshot()
-    const pageScreenshot = pageScreenshotCanvas.toDataURL('image/png')
+    console.log('Getting page screeshot...')
+    const pageScreenshot = await ActionScrenshot(window.location.href)
+    console.log('Page screeshot ok')
+    console.log({
+      pageScreenshot,
+    })
     console.log('Getting page description string...')
     const description = await ActionGetDescription({
       requirement,
-      screenshot: pageScreenshot,
+      screenshot: pageScreenshot!,
       sourceCode: pageSourceCode,
     })
     console.log('Playing audio...')
