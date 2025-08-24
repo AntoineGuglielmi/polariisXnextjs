@@ -7,7 +7,13 @@ export class ServiceTTSEleven {
     this.client = elevenClient
   }
 
-  async speak(stringToSay: string): Promise<Blob> {
+  async speak({
+    stringToSay,
+    reading_speed,
+  }: {
+    stringToSay: string
+    reading_speed: string
+  }): Promise<Blob> {
     const audio = await this.client.textToSpeech.convert(
       'JBFqnCBsd6RMkjVDRZzb',
       {
@@ -15,7 +21,7 @@ export class ServiceTTSEleven {
         modelId: 'eleven_multilingual_v2',
         outputFormat: 'mp3_44100_128',
         voiceSettings: {
-          speed: 1,
+          speed: Number(reading_speed),
         },
       },
     )
