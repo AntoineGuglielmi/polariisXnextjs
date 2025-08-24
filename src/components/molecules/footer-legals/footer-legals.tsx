@@ -17,13 +17,13 @@ export default function FooterLegals({ className }: FooterLegalsProps) {
       <p>© 2024 Cowork. All rights reserved.</p>
       <ul className="flex gap-6">
         <li>
-          <Link href="/">Privacy Policy</Link>
+          <Link href="/cowork">Privacy Policy</Link>
         </li>
         <li>
-          <Link href="/">Terms of Service</Link>
+          <Link href="/cowork">Terms of Service</Link>
         </li>
         <li>
-          <Link href="/">Cookies Settings</Link>
+          <Link href="/cowork">Cookies Settings</Link>
         </li>
       </ul>
     </div>

@@ -31,7 +31,7 @@ export default function LayerTour({ className }: LayerTourProps) {
               collaborative energy that define the Cowork experience.
             </Paragraph>
             <Button
-              href="/"
+              href="/cowork"
               label="Explore Spaces"
               variant="hollow"
             />

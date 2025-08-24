@@ -26,7 +26,7 @@ export default function LayerCta({ className }: LayerCtaProps) {
           </Paragraph>
 
           <Button
-            href="/"
+            href="/cowork"
             label="Claim Your Spot"
             variant="full"
           />

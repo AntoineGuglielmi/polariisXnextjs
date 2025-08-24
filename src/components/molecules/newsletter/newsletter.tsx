@@ -22,7 +22,7 @@ export default function Newsletter({ className }: NewsletterProps) {
         <Button
           label="Subscribe"
           variant="full-negative"
-          href="/"
+          href="/cowork"
         />
       </form>
       <p>

@@ -39,7 +39,7 @@ export default function LayerBlog({ className }: LayerBlogProps) {
               itemComponent={BlogTeaser}
             />
             <Button
-              href="/"
+              href="/cowork"
               variant="hollow"
               label="View All"
             />

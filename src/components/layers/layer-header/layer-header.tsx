@@ -14,7 +14,7 @@ export default function LayerHeader({ className }: LayerHeaderProps) {
       <div className="LayerHeader__container reg-cont">
         <div className="LayerHeader__content flex justify-between items-center">
           <Link
-            href="/"
+            href="/cowork"
             className="flex items-center"
           >
             <Logo className="h-[1.5em]" />

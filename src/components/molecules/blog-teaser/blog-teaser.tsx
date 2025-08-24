@@ -44,7 +44,7 @@ export default function BlogTeaser({
       </div>
       <h3 className="BlogTeaser__title typeface-heading-3">{title}</h3>
       <Link
-        href="/"
+        href="/cowork"
         className="flex items-center gap-2"
       >
         Read more <ChevronRight />

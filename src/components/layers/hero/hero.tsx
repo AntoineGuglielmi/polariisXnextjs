@@ -30,7 +30,7 @@ export default function Hero({ className }: HeroProps) {
             </h2>
             <Button
               label="Claim your spot"
-              href="/"
+              href="/cowork"
               variant="full"
             />
           </div>
