@@ -1,12 +1,12 @@
-import Choose from '@/components/layers/choose/choose'
-import Hero from '@/components/layers/hero/hero'
-import LayerBlog from '@/components/layers/layer-blog/layer-blog'
-import LayerCta from '@/components/layers/layer-cta/layer-cta'
-import LayerFaq from '@/components/layers/layer-faq/layer-faq'
-import LayerKeyFigures from '@/components/layers/layer-key-figures/layer-key-figures'
-import LayerTestimonials from '@/components/layers/layer-testimonials/layer-testimonials'
-import LayerTour from '@/components/layers/layer-tour/layer-tour'
-import Trusted from '@/components/layers/trusted/trusted'
+import Choose from '@/sites/cowork/components/layers/choose/choose'
+import Hero from '@/sites/cowork/components/layers/hero/hero'
+import LayerBlog from '@/sites/cowork/components/layers/layer-blog/layer-blog'
+import LayerCta from '@/sites/cowork/components/layers/layer-cta/layer-cta'
+import LayerFaq from '@/sites/cowork/components/layers/layer-faq/layer-faq'
+import LayerKeyFigures from '@/sites/cowork/components/layers/layer-key-figures/layer-key-figures'
+import LayerTestimonials from '@/sites/cowork/components/layers/layer-testimonials/layer-testimonials'
+import LayerTour from '@/sites/cowork/components/layers/layer-tour/layer-tour'
+import Trusted from '@/sites/cowork/components/layers/trusted/trusted'
 
 export default function Home() {
   return (

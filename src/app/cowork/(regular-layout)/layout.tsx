@@ -1,5 +1,5 @@
-import LayerFooter from '@/components/layers/layer-footer/layer-footer'
-import LayerHeader from '@/components/layers/layer-header/layer-header'
+import LayerFooter from '@/sites/cowork/components/layers/layer-footer/layer-footer'
+import LayerHeader from '@/sites/cowork/components/layers/layer-header/layer-header'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
