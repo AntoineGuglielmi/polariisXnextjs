@@ -5,12 +5,14 @@ import { getPageSourceCode } from 'pxn/lib/page'
 import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
 import { playAudioFromBlob } from 'pxn/lib/audio'
 import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
+import { CookieManager } from './CookieManager'
 
 export class Polariis {
   private audio: Audio
 
   constructor() {
     this.audio = new Audio()
+    this._initCookies()
   }
 
   public async listen() {
@@ -80,6 +82,24 @@ export class Polariis {
           break
       }
       processOk = false
+    }
+  }
+
+  private _initCookies() {
+    try {
+      const cookieManager = CookieManager.getInstance()
+      if (!cookieManager.hasCookie('POLARIIS_READING_SPEED')) {
+        cookieManager.setCookie({
+          name: 'POLARIIS_READING_SPEED',
+          value: '1.0',
+        })
+      }
+    } catch (error: unknown) {
+      console.warn(
+        `Skipping cookie initialization because server side: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      )
     }
   }
 
