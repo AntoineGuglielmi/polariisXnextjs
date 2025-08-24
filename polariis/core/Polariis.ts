@@ -6,6 +6,8 @@ import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
 import { playAudioFromBlob } from 'pxn/lib/audio'
 import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
 import { CookieManager } from './CookieManager'
+import { ActionHandleAdjustment } from 'pxn/actions/ActionHandleAdjustment'
+import { ActionGetVoice } from 'pxn/actions/ActionGetVoice'
 
 export class Polariis {
   private audio: Audio
@@ -76,6 +78,7 @@ export class Polariis {
         case 'interaction':
           break
         case 'adjustment':
+          await this._handleAdjustment(requirementTranscription)
           break
 
         default:
@@ -114,6 +117,8 @@ export class Polariis {
   }
 
   private async _getDescription(requirement: string): Promise<void> {
+    const cookieManager = CookieManager.getInstance()
+    const reading_speed = cookieManager.getCookie('POLARIIS_READING_SPEED')
     const pageSourceCode = await getPageSourceCode()
     console.log('Getting page screeshot...')
     const pageScreenshot = await ActionScrenshot(window.location.href)
@@ -126,9 +131,34 @@ export class Polariis {
       requirement,
       screenshot: pageScreenshot!,
       sourceCode: pageSourceCode,
+      reading_speed: reading_speed!,
     })
     console.log('Playing audio...')
     await playAudioFromBlob(description)
+    console.log('Audio played.')
+  }
+
+  private async _handleAdjustment(
+    requirementTranscription: string,
+  ): Promise<void> {
+    const cookieManager = CookieManager.getInstance()
+    const readingSpeed = cookieManager.getCookie('POLARIIS_READING_SPEED')
+    const { feedback, reading_speed } = JSON.parse(
+      await ActionHandleAdjustment({
+        requirementTranscription,
+        readingSpeed: readingSpeed || '1.0',
+      }),
+    )
+    cookieManager.setCookie({
+      name: 'POLARIIS_READING_SPEED',
+      value: reading_speed,
+    })
+    const ttsFeedback = await ActionGetVoice({
+      text: String(feedback),
+      reading_speed,
+    })
+    console.log('Playing audio...')
+    await playAudioFromBlob(ttsFeedback)
     console.log('Audio played.')
   }
 }
