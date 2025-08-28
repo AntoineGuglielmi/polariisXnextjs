@@ -3,9 +3,10 @@ import { ActionGetVoice } from 'pxn/actions/ActionGetVoice'
 import { playAudioFromBlob } from 'pxn/lib/audio'
 import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 import { CookieManager } from 'pxn/core/CookieManager'
+import { Requirement } from 'pxn/types/RequirementTypes'
 
 export class StrategyAdjustment implements InterfaceStrategy {
-  async execute(requirement: string): Promise<void> {
+  async execute(requirement: Requirement): Promise<void> {
     console.log('Executing adjustment strategy')
 
     const cookieManager = CookieManager.getInstance()

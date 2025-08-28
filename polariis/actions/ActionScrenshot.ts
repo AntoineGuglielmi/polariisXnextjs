@@ -1,8 +1,9 @@
 'use server'
 
 import puppeteer from 'puppeteer'
+import { PageScreenshot } from 'pxn/types/OtherTypes'
 
-export const ActionScrenshot = async (url: string): Promise<string | void> => {
+export const ActionScrenshot = async (url: string): Promise<PageScreenshot> => {
   try {
     const browser = await puppeteer.launch({
       headless: true,
@@ -15,6 +16,6 @@ export const ActionScrenshot = async (url: string): Promise<string | void> => {
     const imageBase64 = Buffer.from(screenshot as Buffer).toString('base64')
     return `data:image/png;base64,${imageBase64}`
   } catch (err) {
-    console.error(err)
+    throw new Error(`Error taking screenshot: ${err}`)
   }
 }

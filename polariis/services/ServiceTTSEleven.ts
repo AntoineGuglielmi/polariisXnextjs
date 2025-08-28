@@ -1,5 +1,7 @@
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js'
 import { elevenClient } from './clients/eleven-client'
+import { AudioBlob } from 'pxn/types/AudioTypes'
+import { ReadingSpeed } from 'pxn/types/OtherTypes'
 
 export class ServiceTTSEleven {
   private client: ElevenLabsClient
@@ -7,17 +9,17 @@ export class ServiceTTSEleven {
     this.client = elevenClient
   }
 
-  async speak({
-    stringToSay,
+  async generateVoice({
+    stringToTurnIntoVoice,
     reading_speed,
   }: {
-    stringToSay: string
-    reading_speed: string
-  }): Promise<Blob> {
+    stringToTurnIntoVoice: string
+    reading_speed: ReadingSpeed
+  }): Promise<AudioBlob> {
     const audio = await this.client.textToSpeech.convert(
       'JBFqnCBsd6RMkjVDRZzb',
       {
-        text: stringToSay,
+        text: stringToTurnIntoVoice,
         modelId: 'eleven_multilingual_v2',
         outputFormat: 'mp3_44100_128',
         voiceSettings: {
@@ -26,7 +28,6 @@ export class ServiceTTSEleven {
       },
     )
 
-    // Ici on force à lire tout le contenu côté serveur
     const blob = await new Response(audio).blob()
 
     return blob

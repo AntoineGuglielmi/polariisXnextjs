@@ -1,8 +1,11 @@
 'use server'
 
+import { AdapterRUO } from 'pxn/adapters/AdapterRUO'
 import { ServiceGetRUOMistral } from 'pxn/services/ServiceGetRUOMistral'
+import { Requirement } from 'pxn/types/RequirementTypes'
+import { RUO } from 'pxn/types/RUOTypes'
 
-export const ActionGetRUO = async (requirement: string): Promise<string> => {
+export const ActionGetRUO = async (requirement: Requirement): Promise<RUO> => {
   const service = new ServiceGetRUOMistral()
-  return await service.getRUO(requirement)
+  return AdapterRUO(await service.getRUO(requirement))
 }

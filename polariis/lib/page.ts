@@ -1,4 +1,6 @@
-export const getPageSourceCode = async (): Promise<string> => {
+import { PageSourceCode } from 'pxn/types/OtherTypes'
+
+export const getPageSourceCode = async (): Promise<PageSourceCode> => {
   console.log('Getting page source code...')
 
   try {

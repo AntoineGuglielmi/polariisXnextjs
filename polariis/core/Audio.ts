@@ -1,7 +1,7 @@
-export class Audio {
-  constructor() {}
+import { RequirementAudio } from 'pxn/types/RequirementTypes'
 
-  async getAudioRequirement(): Promise<File | null> {
+export class Audio {
+  async getAudioRequirement(): Promise<RequirementAudio | null> {
     let listening = true
     let attempts = 0
     const silenceLimit = 50000
@@ -88,7 +88,7 @@ export class Audio {
   }: {
     blob: Blob
     fileName?: string
-  }): File {
+  }): RequirementAudio {
     return new File([blob], fileName, {
       type: blob.type || 'audio/webm',
       lastModified: Date.now(),

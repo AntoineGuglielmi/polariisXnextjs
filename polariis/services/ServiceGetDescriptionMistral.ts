@@ -1,5 +1,7 @@
 import { Mistral } from '@mistralai/mistralai'
 import { mistralClient } from './clients/mistral-client'
+import { Requirement } from 'pxn/types/RequirementTypes'
+import { PageScreenshot, PageSourceCode } from 'pxn/types/OtherTypes'
 
 export class ServiceGetDescriptionMistral {
   private client: Mistral
@@ -13,9 +15,9 @@ export class ServiceGetDescriptionMistral {
     screenshot,
     sourceCode,
   }: {
-    requirement: string
-    screenshot: string
-    sourceCode: string
+    requirement: Requirement
+    screenshot: PageScreenshot
+    sourceCode: PageSourceCode
   }): Promise<string> {
     try {
       const response = await this.client.chat.complete({

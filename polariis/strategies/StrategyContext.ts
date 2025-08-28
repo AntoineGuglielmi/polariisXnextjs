@@ -1,11 +1,9 @@
-// src/strategies/StrategyContext.ts
-
+import { RUO, RUOType } from 'pxn/types/RUOTypes'
 import { InterfaceStrategy } from './InterfaceStrategy'
 import { StrategyAdjustment } from './StrategyAdjustment'
 import { StrategyDescription } from './StrategyDescription'
 import { StrategyInteraction } from './StrategyInteraction'
-
-type RUOType = 'description' | 'interaction' | 'adjustment'
+import { Requirement } from 'pxn/types/RequirementTypes'
 
 export class StrategyContext {
   private strategies: Record<RUOType, InterfaceStrategy>
@@ -22,14 +20,19 @@ export class StrategyContext {
     RUO,
     requirement,
   }: {
-    RUO: { type: RUOType }
-    requirement: string
+    RUO: RUO
+    requirement: Requirement
   }): Promise<void> {
+    //
     const { type } = RUO
     const strategy = this.strategies[type]
+
+    // Error if no strategy found
     if (!strategy) {
       throw new Error(`No strategy found for type: ${type}`)
     }
+
+    // Execute strategy
     await strategy.execute(requirement)
   }
 }

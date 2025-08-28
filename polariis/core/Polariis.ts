@@ -3,6 +3,8 @@ import { Audio } from 'pxn/core/Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
 import { CookieManager } from 'pxn/core/CookieManager'
 import { StrategyContext } from 'pxn/strategies/StrategyContext'
+import { RUO } from 'pxn/types/RUOTypes'
+import { Requirement, RequirementAudio } from 'pxn/types/RequirementTypes'
 
 export class Polariis {
   private audio: Audio
@@ -15,61 +17,56 @@ export class Polariis {
   }
 
   public async listen() {
+    // Some settings
     let processOk = true
-    let RUO: { type: 'description' | 'interaction' | 'adjustment' } | null =
-      null
-    let requirementTranscription: string | null = null
-    const testing = false
+    const testing: boolean = false
 
+    // Start listening loop
     while (processOk) {
+      // Get audio requirement
       const requirementAudio = await this.audio.getAudioRequirement()
 
+      // If no audio requirement, stop the process
       if (!requirementAudio) {
         console.warn('No audio requirement found.')
         processOk = false
         break
       }
 
-      if (testing) {
-        requirementTranscription = 'Y a quoi sur la page ?'
-        console.log({
-          requirementTranscription,
-        })
+      // Get requirement string from audio requirement
+      const requirement = testing
+        ? ('Y a quoi sur la page ?' as Requirement)
+        : await this._getTranscriptionRequirement(requirementAudio)
 
-        RUO = {
-          type: 'description',
-        }
+      console.log({
+        requirement,
+      })
+
+      try {
+        // Get RUO from requirement
+        const RUO = testing
+          ? ({
+              type: 'description',
+            } as RUO)
+          : await this._getRUO(requirement)
+
         console.log({
           RUO,
         })
-      } else {
-        requirementTranscription = await this._getTranscriptionRequirement(
-          requirementAudio,
-        )
 
-        console.log({
-          requirementTranscription,
+        // Run strategy context with RUO and requirement
+        await this.context.run({
+          RUO,
+          requirement,
         })
-
-        try {
-          RUO = await this._getRUO(requirementTranscription)
-          console.log({
-            RUO,
-          })
-        } catch (error: unknown) {
-          console.error(
-            `Error getting RUO: ${
-              error instanceof Error ? error.message : 'Unknown error'
-            }`,
-          )
-          break
-        }
+      } catch (error: unknown) {
+        console.error(
+          `Error getting RUO: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        )
+        break
       }
-
-      await this.context.run({
-        RUO: RUO!,
-        requirement: requirementTranscription!,
-      })
     }
   }
 
@@ -91,13 +88,13 @@ export class Polariis {
     }
   }
 
-  private async _getTranscriptionRequirement(audioFile: File): Promise<string> {
+  private async _getTranscriptionRequirement(
+    audioFile: RequirementAudio,
+  ): Promise<Requirement> {
     return await ActionTranscribe(audioFile)
   }
 
-  private async _getRUO(
-    requirement: string,
-  ): Promise<{ type: 'description' | 'interaction' | 'adjustment' }> {
-    return JSON.parse(await ActionGetRUO(requirement))
+  private async _getRUO(requirement: string): Promise<RUO> {
+    return await ActionGetRUO(requirement)
   }
 }
