@@ -84,7 +84,6 @@ export class Polariis {
         default:
           break
       }
-      processOk = false
     }
   }
 
@@ -142,11 +141,12 @@ export class Polariis {
     requirementTranscription: string,
   ): Promise<void> {
     const cookieManager = CookieManager.getInstance()
-    const readingSpeed = cookieManager.getCookie('POLARIIS_READING_SPEED')
+    const readingSpeed =
+      cookieManager.getCookie('POLARIIS_READING_SPEED') || '1.0'
     const { feedback, reading_speed } = JSON.parse(
       await ActionHandleAdjustment({
         requirementTranscription,
-        readingSpeed: readingSpeed || '1.0',
+        readingSpeed,
       }),
     )
     cookieManager.setCookie({
