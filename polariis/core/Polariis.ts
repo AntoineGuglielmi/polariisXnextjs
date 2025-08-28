@@ -1,19 +1,16 @@
 import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
-import { Audio } from './Audio'
+import { Audio } from 'pxn/core/Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
-import { getPageSourceCode } from 'pxn/lib/page'
-import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
-import { playAudioFromBlob } from 'pxn/lib/audio'
-import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
-import { CookieManager } from './CookieManager'
-import { ActionHandleAdjustment } from 'pxn/actions/ActionHandleAdjustment'
-import { ActionGetVoice } from 'pxn/actions/ActionGetVoice'
+import { CookieManager } from 'pxn/core/CookieManager'
+import { StrategyContext } from 'pxn/strategies/StrategyContext'
 
 export class Polariis {
   private audio: Audio
+  private context: StrategyContext
 
   constructor() {
     this.audio = new Audio()
+    this.context = new StrategyContext()
     this._initCookies()
   }
 
@@ -69,21 +66,10 @@ export class Polariis {
         }
       }
 
-      const { type } = RUO
-
-      switch (type) {
-        case 'description':
-          await this._getDescription(requirementTranscription)
-          break
-        case 'interaction':
-          break
-        case 'adjustment':
-          await this._handleAdjustment(requirementTranscription)
-          break
-
-        default:
-          break
-      }
+      await this.context.run({
+        RUO: RUO!,
+        requirement: requirementTranscription!,
+      })
     }
   }
 
@@ -113,52 +99,5 @@ export class Polariis {
     requirement: string,
   ): Promise<{ type: 'description' | 'interaction' | 'adjustment' }> {
     return JSON.parse(await ActionGetRUO(requirement))
-  }
-
-  private async _getDescription(requirement: string): Promise<void> {
-    const cookieManager = CookieManager.getInstance()
-    const reading_speed = cookieManager.getCookie('POLARIIS_READING_SPEED')
-    const pageSourceCode = await getPageSourceCode()
-    console.log('Getting page screeshot...')
-    const pageScreenshot = await ActionScrenshot(window.location.href)
-    console.log('Page screeshot ok')
-    console.log({
-      pageScreenshot,
-    })
-    console.log('Getting page description string...')
-    const description = await ActionGetDescription({
-      requirement,
-      screenshot: pageScreenshot!,
-      sourceCode: pageSourceCode,
-      reading_speed: reading_speed!,
-    })
-    console.log('Playing audio...')
-    await playAudioFromBlob(description)
-    console.log('Audio played.')
-  }
-
-  private async _handleAdjustment(
-    requirementTranscription: string,
-  ): Promise<void> {
-    const cookieManager = CookieManager.getInstance()
-    const readingSpeed =
-      cookieManager.getCookie('POLARIIS_READING_SPEED') || '1.0'
-    const { feedback, reading_speed } = JSON.parse(
-      await ActionHandleAdjustment({
-        requirementTranscription,
-        readingSpeed,
-      }),
-    )
-    cookieManager.setCookie({
-      name: 'POLARIIS_READING_SPEED',
-      value: reading_speed,
-    })
-    const ttsFeedback = await ActionGetVoice({
-      text: String(feedback),
-      reading_speed,
-    })
-    console.log('Playing audio...')
-    await playAudioFromBlob(ttsFeedback)
-    console.log('Audio played.')
   }
 }
