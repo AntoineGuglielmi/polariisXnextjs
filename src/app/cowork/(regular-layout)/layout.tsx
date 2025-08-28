@@ -13,10 +13,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <>
+    <div className="cowork">
       <LayerHeader />
       {children}
       <LayerFooter />
-    </>
+    </div>
   )
 }

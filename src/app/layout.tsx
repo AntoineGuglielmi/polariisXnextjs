@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} antialiased bg-layout-bg font-nunito debug-screens`}
+        className={`${nunito.variable} antialiased bg-layout-bg font-main debug-screens`}
       >
         <PolariisProvider>{children}</PolariisProvider>
       </body>

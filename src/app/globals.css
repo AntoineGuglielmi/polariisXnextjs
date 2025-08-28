@@ -4,43 +4,73 @@
 @custom-variant dark (&:is(.dark *));
 @plugin "tailwindcss-debug-screens";
 
-@theme {
-  --theme-pure-white: oklch(100% 0 0);
-  --theme-humble-black: oklch(23.32% 0.0041 128.7);
-  --theme-unorganic-green: oklch(93.05% 0.149 124.2);
-  --theme-sky-blue: oklch(89.16% 0.0687 212.3);
-  --theme-shiny-pink: oklch(86.62% 0.0804 348.3);
-  --theme-almost-orange: oklch(86.68% 0.0844 64);
-  --theme-powerless-grey: oklch(95.81% 0 0);
+@theme inline {
+  --color-pure-white: var(--token-pure-white);
+  --color-unorganic-green: var(--token-unorganic-green);
+  --color-sky-blue: var(--token-sky-blue);
+  --color-shiny-pink: var(--token-shiny-pink);
+  --color-almost-orange: var(--token-almost-orange);
+  --color-powerless-grey: var(--token-powerless-grey);
 
-  --color-pure-white: var(--theme-pure-white);
-  --color-unorganic-green: var(--theme-unorganic-green);
-  --color-sky-blue: var(--theme-sky-blue);
-  --color-shiny-pink: var(--theme-shiny-pink);
-  --color-almost-orange: var(--theme-almost-orange);
-  --color-powerless-grey: var(--theme-powerless-grey);
+  --color-layout-bg: var(--token-layout-bg);
+  --color-layout-text: var(--token-layout-text);
 
-  --font-nunito: 'var(--font-nunito)';
+  --color-button-border: var(--token-button-border);
+  --color-button-bg-hollow: var(--token-button-bg-hollow);
+  --color-button-bg-full: var(--token-button-bg-full);
+  --color-button-text-hollow: var(--token-button-text-hollow);
+  --color-button-text-full: var(--token-button-text-full);
+  --color-button-hover-bg-hollow: var(--token-button-hover-bg-hollow);
+  --color-button-hover-text-hollow: var(--token-button-hover-text-hollow);
 
-  --color-layout-bg: var(--theme-pure-white);
-  --color-layout-text: var(--theme-humble-black);
+  --color-circle-green: var(--token-circle-green);
 
-  --color-button-border: var(--theme-humble-black);
-  --color-button-bg-hollow: var(--theme-pure-white);
-  --color-button-bg-full: var(--theme-humble-black);
-  --color-button-text-hollow: var(--theme-humble-black);
-  --color-button-text-full: var(--theme-pure-white);
-  --color-button-hover-bg-hollow: var(--theme-humble-black);
-  --color-button-hover-text-hollow: var(--theme-pure-white);
-
-  --color-circle-green: var(--theme-unorganic-green);
-
-  --color-footer-frame-bg: var(--theme-humble-black);
-  --color-footer-frame-text: var(--theme-pure-white);
+  --color-footer-frame-bg: var(--token-footer-frame-bg);
+  --color-footer-frame-text: var(--token-footer-frame-text);
 
   --radius-big: 3rem;
   --radius-small: 1.5rem;
   --radius-mini: 0.25rem;
+  --font-main: var(--token-font-main);
+}
+
+@layer base {
+  :root {
+    --primitive-pure-white: oklch(100% 0 0);
+    --primitive-humble-black: oklch(23.32% 0.0041 128.7);
+    --primitive-unorganic-green: oklch(93.05% 0.149 124.2);
+    --primitive-sky-blue: oklch(89.16% 0.0687 212.3);
+    --primitive-shiny-pink: oklch(86.62% 0.0804 348.3);
+    --primitive-almost-orange: oklch(86.68% 0.0844 64);
+    --primitive-powerless-grey: oklch(95.81% 0 0);
+    --token-pure-white: var(--primitive-pure-white);
+    --token-humble-black: var(--primitive-humble-black);
+    --token-unorganic-green: var(--primitive-unorganic-green);
+    --token-sky-blue: var(--primitive-sky-blue);
+    --token-shiny-pink: var(--primitive-shiny-pink);
+    --token-almost-orange: var(--primitive-almost-orange);
+    --token-powerless-grey: var(--primitive-powerless-grey);
+
+    --primitive-nunito: var(--font-nunito);
+  }
+
+  .cowork {
+    --token-layout-bg: var(--primitive-pure-white);
+    --token-layout-text: var(--primitive-humble-black);
+
+    --token-button-border: var(--primitive-humble-black);
+    --token-button-bg-hollow: var(--primitive-pure-white);
+    --token-button-bg-full: var(--primitive-humble-black);
+    --token-button-text-hollow: var(--primitive-humble-black);
+    --token-button-text-full: var(--primitive-pure-white);
+    --token-button-hover-bg-hollow: var(--primitive-humble-black);
+    --token-button-hover-text-hollow: var(--primitive-pure-white);
+
+    --token-circle-green: var(--primitive-unorganic-green);
+
+    --token-footer-frame-bg: var(--primitive-humble-black);
+    --token-footer-frame-text: var(--primitive-pure-white);
+  }
 }
 
 @utility reg-cont {
@@ -48,7 +78,7 @@
 }
 
 @utility typeface-paragraph {
-  @apply font-nunito text-layout-text font-[400] leading-[180%] fz-sm max-w-prose;
+  @apply font-main text-layout-text font-[400] leading-[180%] fz-sm max-w-prose;
 }
 
 @utility typeface-paragraph-upper {
