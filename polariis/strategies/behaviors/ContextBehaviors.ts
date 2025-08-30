@@ -1,11 +1,11 @@
 import { RUO, RUOType } from 'pxn/types/RUOTypes'
-import { InterfaceStrategy } from './InterfaceStrategy'
+import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 import { StrategyAdjustment } from './StrategyAdjustment'
 import { StrategyDescription } from './StrategyDescription'
 import { StrategyInteraction } from './StrategyInteraction'
 import { Requirement } from 'pxn/types/RequirementTypes'
 
-export class StrategyContext {
+export class ContextBehaviors {
   private strategies: Record<RUOType, InterfaceStrategy>
 
   constructor() {

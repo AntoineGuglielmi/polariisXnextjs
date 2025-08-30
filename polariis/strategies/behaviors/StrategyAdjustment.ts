@@ -1,9 +1,9 @@
 import { ActionHandleAdjustment } from 'pxn/actions/ActionHandleAdjustment'
 import { ActionGetVoice } from 'pxn/actions/ActionGetVoice'
 import { playAudioFromBlob } from 'pxn/lib/audio'
-import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 import { CookieManager } from 'pxn/core/CookieManager'
 import { Requirement } from 'pxn/types/RequirementTypes'
+import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 
 export class StrategyAdjustment implements InterfaceStrategy {
   async execute(requirement: Requirement): Promise<void> {

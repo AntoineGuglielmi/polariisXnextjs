@@ -2,17 +2,17 @@ import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
 import { Audio } from 'pxn/core/Audio'
 import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
 import { CookieManager } from 'pxn/core/CookieManager'
-import { StrategyContext } from 'pxn/strategies/StrategyContext'
 import { RUO } from 'pxn/types/RUOTypes'
 import { Requirement, RequirementAudio } from 'pxn/types/RequirementTypes'
+import { ContextBehaviors } from 'pxn/strategies/behaviors/ContextBehaviors'
 
 export class Polariis {
   private audio: Audio
-  private context: StrategyContext
+  private contextBehaviors: ContextBehaviors
 
   constructor() {
     this.audio = new Audio()
-    this.context = new StrategyContext()
+    this.contextBehaviors = new ContextBehaviors()
     this._initCookies()
   }
 
@@ -55,7 +55,7 @@ export class Polariis {
         })
 
         // Run strategy context with RUO and requirement
-        await this.context.run({
+        await this.contextBehaviors.run({
           RUO,
           requirement,
         })

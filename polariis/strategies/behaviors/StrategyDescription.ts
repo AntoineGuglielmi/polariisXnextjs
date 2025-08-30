@@ -2,9 +2,9 @@ import { getPageSourceCode } from 'pxn/lib/page'
 import { ActionScrenshot } from 'pxn/actions/ActionScrenshot'
 import { ActionGetDescription } from 'pxn/actions/ActionGetDescription'
 import { playAudioFromBlob } from 'pxn/lib/audio'
-import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 import { CookieManager } from 'pxn/core/CookieManager'
 import { ReadingSpeed } from 'pxn/types/OtherTypes'
+import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
 
 export class StrategyDescription implements InterfaceStrategy {
   async execute(requirement: string): Promise<void> {
