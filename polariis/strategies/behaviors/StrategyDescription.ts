@@ -20,20 +20,17 @@ export class StrategyDescription implements InterfaceStrategy {
     console.log('Getting page screeshot...')
     const screenshot = await ActionScrenshot(window.location.href)
     console.log('Page screeshot ok')
-    console.log({
-      screenshot,
-    })
-    console.log('Getting page description string...')
 
     // Get description from ActionGetDescription
+    console.log('Getting page description string...')
     const description = await ActionGetDescription({
       requirement,
       screenshot,
       sourceCode,
       reading_speed,
     })
-    console.log('Playing audio...')
+    // console.log('Playing audio...')
     await playAudioFromBlob(description)
-    console.log('Audio played.')
+    // console.log('Audio played.')
   }
 }
