@@ -50,6 +50,7 @@ export class ContextProcess {
           strategy.next(this.state) ?? ProcessEnum.MUST_GET_AUDIO_REQUIREMENT
       } catch (error) {
         this.processOk = false
+        this.currentStep = ProcessEnum.MUST_GET_AUDIO_REQUIREMENT
         throw error
       }
     }
