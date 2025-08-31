@@ -1,7 +1,15 @@
 'use server'
 
+import { AdapterDescription } from 'pxn/adapters/AdapterDescription'
 import { ServiceGetDescriptionMistral } from 'pxn/services/ServiceGetDescriptionMistral'
 import { ServiceTTSEleven } from 'pxn/services/ServiceTTSEleven'
+import { AudioBlob } from 'pxn/types/AudioTypes'
+import {
+  PageScreenshot,
+  PageSourceCode,
+  ReadingSpeed,
+} from 'pxn/types/OtherTypes'
+import { Requirement } from 'pxn/types/RequirementTypes'
 
 export const ActionGetDescription = async ({
   requirement,
@@ -9,25 +17,25 @@ export const ActionGetDescription = async ({
   sourceCode,
   reading_speed,
 }: {
-  requirement: string
-  screenshot: string
-  sourceCode: string
-  reading_speed: string
-}): Promise<Blob> => {
+  requirement: Requirement
+  screenshot: PageScreenshot
+  sourceCode: PageSourceCode
+  reading_speed: ReadingSpeed
+}): Promise<AudioBlob> => {
   const descriptionService = new ServiceGetDescriptionMistral()
   const ttsService = new ServiceTTSEleven()
-  const { description: stringDescription } = JSON.parse(
-    await descriptionService.describe({
-      requirement,
-      screenshot,
-      sourceCode,
-    }),
-  )
-  console.log({
-    stringDescription,
+  const rawDescription = await descriptionService.describe({
+    requirement,
+    screenshot,
+    sourceCode,
   })
-  const audioDescription = await ttsService.speak({
-    stringToSay: stringDescription,
+  const descriptionObject = AdapterDescription(rawDescription)
+  const { description } = descriptionObject
+  console.log({
+    description,
+  })
+  const audioDescription = await ttsService.generateVoice({
+    stringToTurnIntoVoice: description,
     reading_speed,
   })
   return audioDescription

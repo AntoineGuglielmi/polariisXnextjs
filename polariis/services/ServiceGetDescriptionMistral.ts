@@ -1,5 +1,7 @@
 import { Mistral } from '@mistralai/mistralai'
 import { mistralClient } from './clients/mistral-client'
+import { Requirement } from 'pxn/types/RequirementTypes'
+import { PageScreenshot, PageSourceCode } from 'pxn/types/OtherTypes'
 
 export class ServiceGetDescriptionMistral {
   private client: Mistral
@@ -13,9 +15,9 @@ export class ServiceGetDescriptionMistral {
     screenshot,
     sourceCode,
   }: {
-    requirement: string
-    screenshot: string
-    sourceCode: string
+    requirement: Requirement
+    screenshot: PageScreenshot
+    sourceCode: PageSourceCode
   }): Promise<string> {
     try {
       const response = await this.client.chat.complete({
@@ -26,7 +28,7 @@ export class ServiceGetDescriptionMistral {
             content: [
               {
                 type: 'text',
-                text: `You are Rispol, a web navigation assistant for people with disabilities.
+                text: `You are Polariis, a web navigation assistant for people with disabilities.
                     Your goal, much like a human companion by their side, is to assist the visitor 
                     (from now on referred to as they) in exploring a website and helping them navigate it.
                     They are currently on a web page and need you to provide a description of that page.
@@ -37,13 +39,13 @@ export class ServiceGetDescriptionMistral {
                     You must analyze and cross-check these three elements to best meet their needs.
                     Once your analysis is complete, you must return your response as a single object, 
                     containing a "description" property whose value is the string containing your description 
-                    in the same language used for the requirement.
+                    in the very same language used for the requirement.
                     Your response must strictly be limited to a single JSON object on one line, exactly in the format:
                     {"description": "<string>"}
-                    Do not add any commentary, explanation, formatting, backticks, or line breaks.
+                    Do not add any commentary, explanation, markdown formatting, backticks, or line breaks.
                     Return only the raw JSON object, with no additional characters whatsoever.
                     Failure to follow this format will be considered an invalid response.
-                    Here is the need made by the Internet user: ${requirement}.
+                    Here is the requirement made by the Internet user: ${requirement}.
                     Screenshot are given aside.`,
               },
               {

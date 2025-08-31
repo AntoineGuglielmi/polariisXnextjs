@@ -13,7 +13,7 @@ export const ActionGetVoice = async ({
     text,
   })
   const ttsService = new ServiceTTSEleven()
-  const audioVoice = await ttsService.speak({
+  const audioVoice = await ttsService.generateVoice({
     stringToSay: text,
     reading_speed,
   })

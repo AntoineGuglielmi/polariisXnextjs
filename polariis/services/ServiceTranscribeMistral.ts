@@ -1,6 +1,7 @@
 import { Mistral } from '@mistralai/mistralai'
 import { mistralClient } from './clients/mistral-client'
 import { InterfaceServiceTranscribe } from 'pxn/interfaces/InterfaceServiceTranscribe'
+import { Requirement, RequirementAudio } from 'pxn/types/RequirementTypes'
 
 export class ServiceTranscribeMistral implements InterfaceServiceTranscribe {
   private client: Mistral
@@ -9,7 +10,7 @@ export class ServiceTranscribeMistral implements InterfaceServiceTranscribe {
     this.client = mistralClient
   }
 
-  async transcribe(audioFile: File): Promise<string> {
+  async transcribe(audioFile: RequirementAudio): Promise<Requirement> {
     try {
       const { text } = await this.client.audio.transcriptions.complete({
         model: 'voxtral-mini-latest',
