@@ -1,23 +1,47 @@
 # Polariis X Next.js
 
-Test site for the design of Polariis X Next.js
+Polariis embodies a vision of digital accessibility that is both enhanced for people with disabilities and streamlined for web developers.
 
-## Maquette
+Built on top of a Next.js project, Polariis leverages AI to transcribe and interpret user needs expressed through speech, provide more or less detailed descriptions of the page currently being viewed, or trigger a series of actions (click, scroll, focus).
 
-[Maquette figma](https://www.figma.com/design/Gdlh9aHiu6tSUlq2SNFDqt/Cowork---Coworking-Space-Company--Community-?node-id=0-1&p=f&t=lSPA0RUBrsMAu7JZ-0)
+The project follows the standard structure of a Next.js application. At the root of the project, a `polariis/` folder contains the core development and main features. The rest of the Next.js application serves as the demo site, acting as a testing ground for these features.
 
-## Tailwind
+## Polariis development
 
-Exemple utility class :
+The Polariis part contains the core of the project and the main features, all developed within the `polariis/` folder. It relies on several AI services:
 
-```css
-/* Sinon l'astérisque est formaté */
-/* prettier-ignore */
-@utility typeface-text-* {
-  @apply font-nunito text-layout-text font-[400] leading-[1.3];
-  font-size: --value(--text-*,[*]);
-}
+- [Mistral AI](https://mistral.ai/): for audio transcription, chat completion, and vision.
+- [ElevenLabs](https://elevenlabs.io/): for voice generation.
+
+To test and use Polariis, you need to:
+
+1. Create an account on MistralAI and ElevenLabs (a free account is sufficient).
+2. Generate API keys for each service.
+3. Add the keys to a `.env` file at the root of the project, based on the `.env.example` file:
+
+```env
+MISTRAL_API_KEY=your_api_key
+ELEVENLABS_API_KEY=your_api_key
 ```
+
+This setup allows the application to access the AI services required for Polariis to function.
+
+## Demo site development
+
+The site part is structured to host multiple demo websites. Each website corresponds to a dedicated folder (route) located at the root of the `app/` directory.
+
+> For example:  
+> The `app/cowork/` folder contains the Cowork site, with its layout, main page, and related routes.  
+> If a new site is added, it will be created in a `app/new-site/` folder following the same structure.
+
+This setup makes it possible to develop and test multiple independent demo sites while sharing Polariis features.
+
+Each demo site is based on a mockup, which serves as a reference for designing the pages.
+
+| Site   | Folder in `app/` | Mockup link                                                                                                                                    |
+| ------ | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cowork | `app/cowork/`    | [Figma](https://www.figma.com/design/Gdlh9aHiu6tSUlq2SNFDqt/Cowork---Coworking-Space-Company--Community-?node-id=0-1&p=f&t=lSPA0RUBrsMAu7JZ-0) |
+| …      | …                | …                                                                                                                                              |
 
 ## Git flow
 
