@@ -7,10 +7,16 @@ import LayerKeyFigures from '@/sites/cowork/components/layers/layer-key-figures/
 import LayerTestimonials from '@/sites/cowork/components/layers/layer-testimonials/layer-testimonials'
 import LayerTour from '@/sites/cowork/components/layers/layer-tour/layer-tour'
 import Trusted from '@/sites/cowork/components/layers/trusted/trusted'
+import Test from '@/sites/cowork/components/test'
 
 export default function Home() {
   return (
     <main>
+      <Test color="red" />
+      <Test
+        color="green"
+        className="bg-green-500"
+      />
       <Hero />
       <Trusted />
       <Choose />

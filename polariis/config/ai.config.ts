@@ -7,4 +7,5 @@ export const aiConfig: AIConfig = {
   RUO: 'mistral',
   adjustment: 'mistral',
   TTS: 'eleven',
+  interaction: 'mistral',
 }
