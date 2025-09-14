@@ -4,24 +4,14 @@ import { AdapterDescription } from 'pxn/adapters/AdapterDescription'
 import { FactoryDescriptionService } from 'pxn/services/factories/FactoryDescriptionService'
 import { FactoryTTSService } from 'pxn/services/factories/FactoryTTSService'
 import { AudioBlob } from 'pxn/types/AudioTypes'
-import {
-  PageScreenshot,
-  PageSourceCode,
-  ReadingSpeed,
-} from 'pxn/types/OtherTypes'
-import { Requirement } from 'pxn/types/RequirementTypes'
+import { ActionDescriptionProps } from 'pxn/types/DescriptionTypes'
 
-export const ActionGetDescription = async ({
+export const ActionDescription = async ({
   requirement,
   screenshot,
   sourceCode,
   readingSpeed,
-}: {
-  requirement: Requirement
-  screenshot: PageScreenshot
-  sourceCode: PageSourceCode
-  readingSpeed: ReadingSpeed
-}): Promise<AudioBlob> => {
+}: ActionDescriptionProps): Promise<AudioBlob> => {
   const descriptionService = FactoryDescriptionService()
   const ttsService = FactoryTTSService()
   const rawDescription = await descriptionService.run({

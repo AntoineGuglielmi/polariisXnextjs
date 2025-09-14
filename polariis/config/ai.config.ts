@@ -2,7 +2,7 @@ import { AIConfig } from 'pxn/types/ConfigTypes'
 
 export const aiConfig: AIConfig = {
   transcription: 'mistral',
-  vision: 'openai',
+  description: 'mistral',
   chat: 'mistral',
   RUO: 'mistral',
   adjustment: 'mistral',

@@ -1,7 +1,7 @@
 import { ContextProcessState } from 'pxn/types/ProcessTypes'
 import { InterfaceProcessStep } from './InterfaceProcessStep'
 import { ProcessEnum } from './ProcessEnum'
-import { ActionGetRUO } from 'pxn/actions/ActionGetRUO'
+import { ActionRUO } from 'pxn/actions/ActionRUO'
 
 export class StrategyGetRUOFromStringRequirement
   implements InterfaceProcessStep
@@ -15,7 +15,7 @@ export class StrategyGetRUOFromStringRequirement
 
     return {
       ...state,
-      RUO: await ActionGetRUO(state.requirement),
+      RUO: await ActionRUO(state.requirement),
     }
   }
 

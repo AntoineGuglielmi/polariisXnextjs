@@ -3,10 +3,10 @@ import { MistralDescriptionAdapter } from '../description/MistralDescriptionAdap
 import { DescriptionServiceInterface } from '../interfaces/DescriptionServiceInterface'
 
 export const FactoryDescriptionService = (): DescriptionServiceInterface => {
-  switch (aiConfig.RUO) {
+  switch (aiConfig.description) {
     case 'mistral':
       return new MistralDescriptionAdapter()
     default:
-      throw new Error(`Unknown transcription provider: ${aiConfig.RUO}`)
+      throw new Error(`Unknown transcription provider: ${aiConfig.description}`)
   }
 }

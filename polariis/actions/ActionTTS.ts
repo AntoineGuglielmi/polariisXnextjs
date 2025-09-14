@@ -1,14 +1,12 @@
 'use server'
 
 import { FactoryTTSService } from 'pxn/services/factories/FactoryTTSService'
+import { ActionTTSProps } from 'pxn/types/TTSTypes'
 
 export const ActionTTS = async ({
   stringToTurnIntoVoice,
   readingSpeed,
-}: {
-  stringToTurnIntoVoice: string
-  readingSpeed: string
-}): Promise<Blob> => {
+}: ActionTTSProps): Promise<Blob> => {
   console.log({
     stringToTurnIntoVoice,
   })
