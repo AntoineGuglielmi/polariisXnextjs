@@ -1,7 +1,7 @@
 'use server'
 
 import { AdapterDescription } from 'pxn/adapters/AdapterDescription'
-import { ServiceGetDescriptionMistral } from 'pxn/services/ServiceGetDescriptionMistral'
+import { FactoryDescriptionService } from 'pxn/services/factories/FactoryDescriptionService'
 import { ServiceTTSEleven } from 'pxn/services/ServiceTTSEleven'
 import { AudioBlob } from 'pxn/types/AudioTypes'
 import {
@@ -22,9 +22,9 @@ export const ActionGetDescription = async ({
   sourceCode: PageSourceCode
   reading_speed: ReadingSpeed
 }): Promise<AudioBlob> => {
-  const descriptionService = new ServiceGetDescriptionMistral()
+  const descriptionService = FactoryDescriptionService()
   const ttsService = new ServiceTTSEleven()
-  const rawDescription = await descriptionService.describe({
+  const rawDescription = await descriptionService.run({
     requirement,
     screenshot,
     sourceCode,
