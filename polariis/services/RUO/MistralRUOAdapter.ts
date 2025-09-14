@@ -1,14 +1,16 @@
 import { Mistral } from '@mistralai/mistralai'
-import { mistralClient } from './clients/mistral-client'
+import { Requirement } from 'pxn/types/RequirementTypes'
+import { mistralClient } from '../clients/mistral-client'
+import { RUOServiceInterface } from '../interfaces/RUOServiceInterface'
 
-export class ServiceGetRUOMistral {
+export class MistralRUOAdapter implements RUOServiceInterface {
   private client: Mistral
 
   constructor() {
     this.client = mistralClient
   }
 
-  async getRUO(requirement: string): Promise<string> {
+  async run(requirement: Requirement): Promise<string> {
     try {
       const response = await this.client.chat.complete({
         model: 'mistral-large-latest',

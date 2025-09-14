@@ -4,4 +4,5 @@ export const aiConfig: AIConfig = {
   transcription: 'mistral',
   vision: 'openai',
   chat: 'mistral',
+  RUO: 'mistral',
 }

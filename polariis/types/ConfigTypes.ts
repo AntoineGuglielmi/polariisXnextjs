@@ -4,4 +4,5 @@ export interface AIConfig {
   transcription: AIClient
   vision: AIClient
   chat: AIClient
+  RUO: AIClient
 }
