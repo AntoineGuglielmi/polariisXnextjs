@@ -27,13 +27,13 @@ export default function List<T>({
           dynamic(
             () =>
               import(
-                `@/${namespace}/components/${componentPath}/${
+                `../../../../${namespace}/components/${componentPath}/${
                   typeof item === 'string'
                     ? item
                     : itemComponentFromKey
                     ? (item as Record<string, unknown>)[itemComponentFromKey]
                     : ''
-                }`
+                }.tsx`
               ),
           )
         return (
