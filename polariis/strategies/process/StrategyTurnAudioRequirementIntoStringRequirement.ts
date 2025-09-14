@@ -1,7 +1,7 @@
 import { ContextProcessState } from 'pxn/types/ProcessTypes'
 import { InterfaceProcessStep } from './InterfaceProcessStep'
 import { ProcessEnum } from './ProcessEnum'
-import { ActionTranscribe } from 'pxn/actions/ActionTranscribe'
+import { ActionTranscription } from 'pxn/actions/ActionTranscription'
 
 export class StrategyTurnAudioRequirementIntoStringRequirement
   implements InterfaceProcessStep
@@ -15,7 +15,7 @@ export class StrategyTurnAudioRequirementIntoStringRequirement
 
     return {
       ...state,
-      requirement: await await ActionTranscribe(state.requirementAudio),
+      requirement: await await ActionTranscription(state.requirementAudio),
     }
   }
   public next(state: ContextProcessState): ProcessEnum | null {

@@ -1,30 +1,30 @@
-import { ActionHandleAdjustment } from 'pxn/actions/ActionHandleAdjustment'
-import { ActionGetVoice } from 'pxn/actions/ActionGetVoice'
 import { playAudioFromBlob } from 'pxn/lib/audio'
 import { CookieManager } from 'pxn/core/CookieManager'
 import { Requirement } from 'pxn/types/RequirementTypes'
 import { InterfaceStrategy } from 'pxn/strategies/InterfaceStrategy'
+import { ActionAdjustment } from 'pxn/actions/ActionAdjustment'
+import { ActionTTS } from 'pxn/actions/ActionTTS'
 
 export class StrategyAdjustment implements InterfaceStrategy {
   async execute(requirement: Requirement): Promise<void> {
     console.log('Executing adjustment strategy')
 
     const cookieManager = CookieManager.getInstance()
-    const readingSpeed =
+    const currentReadingSpeed =
       cookieManager.getCookie('POLARIIS_READING_SPEED') || '1.0'
-    const { feedback, reading_speed } = JSON.parse(
-      await ActionHandleAdjustment({
-        requirementTranscription: requirement,
-        readingSpeed,
+    const { feedback, readingSpeed } = JSON.parse(
+      await ActionAdjustment({
+        requirement,
+        readingSpeed: currentReadingSpeed,
       }),
     )
     cookieManager.setCookie({
       name: 'POLARIIS_READING_SPEED',
-      value: reading_speed,
+      value: readingSpeed,
     })
-    const ttsFeedback = await ActionGetVoice({
-      text: String(feedback),
-      reading_speed,
+    const ttsFeedback = await ActionTTS({
+      stringToTurnIntoVoice: String(feedback),
+      readingSpeed,
     })
     console.log('Playing audio...')
     await playAudioFromBlob(ttsFeedback)

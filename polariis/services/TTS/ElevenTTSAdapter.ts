@@ -1,21 +1,19 @@
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js'
-import { elevenClient } from './clients/eleven-client'
 import { AudioBlob } from 'pxn/types/AudioTypes'
-import { ReadingSpeed } from 'pxn/types/OtherTypes'
+import { TTSServiceInterface } from '../interfaces/TTSServiceInterface'
+import { TTSServiceProps } from 'pxn/types/TTSTypes'
+import { elevenClient } from '../clients/eleven-client'
 
-export class ServiceTTSEleven {
+export class ElevenTTSAdapter implements TTSServiceInterface {
   private client: ElevenLabsClient
   constructor() {
     this.client = elevenClient
   }
 
-  async generateVoice({
+  async run({
     stringToTurnIntoVoice,
-    reading_speed,
-  }: {
-    stringToTurnIntoVoice: string
-    reading_speed: ReadingSpeed
-  }): Promise<AudioBlob> {
+    readingSpeed,
+  }: TTSServiceProps): Promise<AudioBlob> {
     const audio = await this.client.textToSpeech.convert(
       'JBFqnCBsd6RMkjVDRZzb',
       {
@@ -23,7 +21,7 @@ export class ServiceTTSEleven {
         modelId: 'eleven_multilingual_v2',
         outputFormat: 'mp3_44100_128',
         voiceSettings: {
-          speed: Number(reading_speed),
+          speed: Number(readingSpeed),
         },
       },
     )

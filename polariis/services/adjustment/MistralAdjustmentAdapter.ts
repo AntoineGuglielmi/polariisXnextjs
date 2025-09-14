@@ -1,20 +1,19 @@
 import { Mistral } from '@mistralai/mistralai'
-import { mistralClient } from './clients/mistral-client'
+import { AdjustmentServiceProps } from 'pxn/types/AdjustmentTypes'
+import { AdjustmentServiceInterface } from '../interfaces/AdjustmentServiceInterface'
+import { mistralClient } from '../clients/mistral-client'
 
-export class ServiceHandleAdjustment {
+export class MistralAdjustmentAdapter implements AdjustmentServiceInterface {
   private client: Mistral
 
   constructor() {
     this.client = mistralClient
   }
 
-  public async handleAdjustment({
-    requirementTranscription,
+  public async run({
+    requirement,
     readingSpeed,
-  }: {
-    requirementTranscription: string
-    readingSpeed: string
-  }): Promise<string> {
+  }: AdjustmentServiceProps): Promise<string> {
     try {
       const response = await this.client.chat.complete({
         model: 'mistral-large-latest',
@@ -33,14 +32,14 @@ export class ServiceHandleAdjustment {
                     You must analyze and cross-reference all these elements to best respond to their needs.
                     Once your analysis is complete, you must return your response as a single object,
                     containing the following properties:
-                    - "reading_speed" containing a string for the potentially updated reading speed (maximum 1.2, minimum 0.7),
+                    - "readingSpeed" containing a string for the potentially updated reading speed (maximum 1.2, minimum 0.7),
                     - "feedback" containing a string with a message validating your analysis and any updates, 
                     in the very same language used for the requirement..
                     Your response must be strictly limited to a single JSON object on one line,
                     exactly in the form: {"<property>": "<string>"}.
                     Do not add any comments, explanations, markwodn formatting, backticks, or line breaks.
                     Return only the raw JSON object, without any extra characters.
-              Here is the requirement made by they: ${requirementTranscription}.
+              Here is the requirement made by they: ${requirement}.
               Here is the current reading speed: ${readingSpeed}.`,
           },
         ],

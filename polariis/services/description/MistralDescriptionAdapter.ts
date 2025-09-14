@@ -1,24 +1,23 @@
 import { Mistral } from '@mistralai/mistralai'
-import { mistralClient } from './clients/mistral-client'
-import { Requirement } from 'pxn/types/RequirementTypes'
-import { PageScreenshot, PageSourceCode } from 'pxn/types/OtherTypes'
+import { DescriptionServiceInterface } from '../interfaces/DescriptionServiceInterface'
+import { mistralClient } from '../clients/mistral-client'
+import {
+  DescriptionServiceProps,
+  RawDescription,
+} from 'pxn/types/DescriptionTypes'
 
-export class ServiceGetDescriptionMistral {
+export class MistralDescriptionAdapter implements DescriptionServiceInterface {
   private client: Mistral
 
   constructor() {
     this.client = mistralClient
   }
 
-  async describe({
+  async run({
     requirement,
     screenshot,
     sourceCode,
-  }: {
-    requirement: Requirement
-    screenshot: PageScreenshot
-    sourceCode: PageSourceCode
-  }): Promise<string> {
+  }: DescriptionServiceProps): Promise<RawDescription> {
     try {
       const response = await this.client.chat.complete({
         model: 'pixtral-12b',
@@ -40,13 +39,13 @@ export class ServiceGetDescriptionMistral {
                     Once your analysis is complete, you must return your response as a single object, 
                     containing a "description" property whose value is the string containing your description 
                     in the very same language used for the requirement.
-                    Your response must strictly be limited to a single JSON object on one line, exactly in the format:
-                    {"description": "<string>"}
+                    Your response must strictly be limited to a single string:
+                    "<string answering the requirement>"
                     Do not add any commentary, explanation, markdown formatting, backticks, or line breaks.
-                    Return only the raw JSON object, with no additional characters whatsoever.
+                    Return only the raw string, with no additional characters whatsoever.
                     Failure to follow this format will be considered an invalid response.
                     Here is the requirement made by the Internet user: ${requirement}.
-                    Screenshot are given aside.`,
+                    Screenshot and page source code are given aside.`,
               },
               {
                 type: 'text',

@@ -3,7 +3,9 @@
 import puppeteer from 'puppeteer'
 import { PageScreenshot } from 'pxn/types/OtherTypes'
 
-export const ActionScrenshot = async (url: string): Promise<PageScreenshot> => {
+export const ActionScreenshot = async (
+  url: string,
+): Promise<PageScreenshot> => {
   try {
     const browser = await puppeteer.launch({
       headless: true,
