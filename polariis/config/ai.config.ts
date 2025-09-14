@@ -5,4 +5,6 @@ export const aiConfig: AIConfig = {
   vision: 'openai',
   chat: 'mistral',
   RUO: 'mistral',
+  adjustment: 'mistral',
+  TTS: 'eleven',
 }

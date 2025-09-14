@@ -2,7 +2,7 @@
 
 import { AdapterDescription } from 'pxn/adapters/AdapterDescription'
 import { FactoryDescriptionService } from 'pxn/services/factories/FactoryDescriptionService'
-import { ServiceTTSEleven } from 'pxn/services/ServiceTTSEleven'
+import { FactoryTTSService } from 'pxn/services/factories/FactoryTTSService'
 import { AudioBlob } from 'pxn/types/AudioTypes'
 import {
   PageScreenshot,
@@ -15,15 +15,15 @@ export const ActionGetDescription = async ({
   requirement,
   screenshot,
   sourceCode,
-  reading_speed,
+  readingSpeed,
 }: {
   requirement: Requirement
   screenshot: PageScreenshot
   sourceCode: PageSourceCode
-  reading_speed: ReadingSpeed
+  readingSpeed: ReadingSpeed
 }): Promise<AudioBlob> => {
   const descriptionService = FactoryDescriptionService()
-  const ttsService = new ServiceTTSEleven()
+  const ttsService = FactoryTTSService()
   const rawDescription = await descriptionService.run({
     requirement,
     screenshot,
@@ -34,9 +34,9 @@ export const ActionGetDescription = async ({
   console.log({
     description,
   })
-  const audioDescription = await ttsService.generateVoice({
+  const audioDescription = await ttsService.run({
     stringToTurnIntoVoice: description,
-    reading_speed,
+    readingSpeed,
   })
   return audioDescription
 }
