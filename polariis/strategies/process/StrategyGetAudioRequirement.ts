@@ -3,6 +3,7 @@ import { Audio } from 'pxn/core/Audio'
 import { ContextProcessState } from 'pxn/types/ProcessTypes'
 import { InterfaceProcessStep } from './InterfaceProcessStep'
 import { ProcessEnum } from './ProcessEnum'
+import { PartialProcessStateTesting } from 'pxn/types/OtherTypes'
 
 export class StrategyGetAudioRequirement implements InterfaceProcessStep {
   private audio: Audio
@@ -12,17 +13,23 @@ export class StrategyGetAudioRequirement implements InterfaceProcessStep {
   }
 
   public async execute(
-    state: ContextProcessState,
+    state: ContextProcessState & PartialProcessStateTesting,
   ): Promise<ContextProcessState> {
     return {
       ...state,
-      requirementAudio:
-        (await this.audio.getAudioRequirement()) as RequirementAudio,
+      ...(!state.testing
+        ? {
+            requirementAudio:
+              (await this.audio.getAudioRequirement()) as RequirementAudio,
+          }
+        : {}),
     }
   }
 
-  public next(state: ContextProcessState): ProcessEnum | null {
-    if (!state.requirementAudio) {
+  public next(
+    state: ContextProcessState & PartialProcessStateTesting,
+  ): ProcessEnum | null {
+    if (!state.requirementAudio && !state.testing) {
       console.warn('No audio requirement found.')
       throw new Error('Error on getting requirement audio')
     }
