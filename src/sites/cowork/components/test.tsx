@@ -9,7 +9,7 @@ type TestProps = {
 
 export default function Test({ className, color }: TestProps) {
   const click = () => {
-    console.log(`Clicked ${color} button: ${Date.now()}`)
+    console.log(`Clicked ${color} button`)
   }
   return (
     <button

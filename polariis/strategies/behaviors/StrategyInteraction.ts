@@ -18,10 +18,26 @@ export class StrategyInteraction implements InterfaceStrategy {
     console.log({
       interactions,
     })
-    interactions.map(({ target, action }) => {
+    interactions.map(({ target, action, value }) => {
       const targetDOM = document.querySelector(target)
-      if (action === 'click' && targetDOM) {
-        ;(targetDOM as HTMLElement).click()
+      if (!targetDOM) {
+        throw new Error(
+          `Polariis has not been able to determine the target of the requested interaction.`,
+        )
+      }
+      switch (action) {
+        case 'click':
+        case 'focus':
+          ;(targetDOM as HTMLElement)[action]()
+          break
+        case 'value':
+          ;(targetDOM as HTMLInputElement | HTMLTextAreaElement).value =
+            value ?? ''
+          break
+        default:
+          throw new Error(
+            `Polariis is not yet able to manage the requested interaction: ${action}.`,
+          )
       }
     })
   }

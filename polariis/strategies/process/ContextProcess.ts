@@ -15,10 +15,9 @@ export class ContextProcess {
   private processOk: boolean = true
   private state: ContextProcessState & PartialProcessStateTesting = {
     requirementAudio: null,
-    requirement:
-      'Clique une fois sur le bouton rouge, puis une fois sur le bouton vert.',
-    RUO: { type: 'interaction' },
-    testing: true,
+    requirement: null, // if testing is set to true, you can provide a value for this property
+    RUO: null, // if testing is set to true, you can provide a value for this property
+    testing: false,
   }
 
   constructor() {
