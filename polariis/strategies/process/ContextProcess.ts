@@ -5,6 +5,7 @@ import { InterfaceProcessStep } from './InterfaceProcessStep'
 import { StrategyTurnAudioRequirementIntoStringRequirement } from './StrategyTurnAudioRequirementIntoStringRequirement'
 import { StrategyGetRUOFromStringRequirement } from './StrategyGetRUOFromStringRequirement'
 import { StrategyTriggerBehavior } from './StrategyTriggerBehavior'
+import { PartialProcessStateTesting } from 'pxn/types/OtherTypes'
 
 export type ContextProcessRunProps = object
 
@@ -12,10 +13,11 @@ export class ContextProcess {
   private strategies: Partial<Record<ProcessEnum, InterfaceProcessStep>>
   private currentStep: ProcessEnum = ProcessEnum.MUST_GET_AUDIO_REQUIREMENT
   private processOk: boolean = true
-  private state: ContextProcessState = {
+  private state: ContextProcessState & PartialProcessStateTesting = {
     requirementAudio: null,
-    requirement: null,
-    RUO: null,
+    requirement: null, // if testing is set to true, you can provide a value for this property
+    RUO: null, // if testing is set to true, you can provide a value for this property
+    testing: false,
   }
 
   constructor() {
@@ -42,16 +44,26 @@ export class ContextProcess {
           break
         }
 
-        this.state = await strategy.execute(this.state)
+        this.state = {
+          ...this.state,
+          ...(await strategy.execute(this.state)),
+        }
         console.log({
           state: this.state,
         })
         this.currentStep =
           strategy.next(this.state) ?? ProcessEnum.MUST_GET_AUDIO_REQUIREMENT
-      } catch (error) {
+      } catch (error: unknown) {
         this.processOk = false
         this.currentStep = ProcessEnum.MUST_GET_AUDIO_REQUIREMENT
-        throw error
+        if (error && typeof error === 'object' && 'message' in error) {
+          console.info(
+            '%c' + (error as { message: string }).message,
+            'color: #FFB114; font-weight: bold;',
+          )
+        } else {
+          console.info(error)
+        }
       }
     }
   }

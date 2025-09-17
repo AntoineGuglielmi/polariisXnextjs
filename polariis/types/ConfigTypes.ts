@@ -7,4 +7,5 @@ export interface AIConfig {
   RUO: AIClient
   adjustment: AIClient
   TTS: AIClient
+  interaction: AIClient
 }

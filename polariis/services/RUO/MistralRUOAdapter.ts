@@ -13,7 +13,7 @@ export class MistralRUOAdapter implements RUOServiceInterface {
   async run(requirement: Requirement): Promise<string> {
     try {
       const response = await this.client.chat.complete({
-        model: 'mistral-large-latest',
+        model: 'mistral-tiny',
         messages: [
           {
             role: 'user',
